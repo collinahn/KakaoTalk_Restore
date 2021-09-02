@@ -1,0 +1,172 @@
+.talkRestored {
+	width: 97vw;
+	height: 97vh;
+	background-color: #a2c1e0;
+	padding: 4px 4px 0px 4px;
+}
+
+.talkRestored .clear {
+	clear: both;
+}
+
+.talkRestored .blank {
+	clear: both;
+	height: 4px;
+}
+
+.talkRestored .msg {
+	height: calc(100% - 72px);
+	overflow-y: scroll;
+
+	font-size: 12px;
+}
+
+.talkRestored .msg .time {
+	font-size: 9px;
+}
+
+.talkRestored .msg .msgFmMe {
+	float: right;
+	width: 100%;
+}
+
+.talkRestored .msg .msgFmMe .time {
+	float: right;
+	bottom: 0;
+}
+
+.talkRestored .msg .msgFmMe .a {
+	float: right;
+	position: relative;
+	min-height: 24px;
+	max-width: calc(100% - 64px);
+	left: 4px;
+	background-color: #ffec42;
+	border-radius: 5px;
+	z-index: 2;
+	padding: 0px 4px 0px 4px;
+	word-break: break-all;
+}
+
+.talkRestored .msg .msgFmMe .b {
+	float: right;
+	position: relative;
+	width: 8px;
+	height: 22px;
+	background: url(../pic/chat_balloon_yellow.right.png) no-repeat;
+	z-index: 1;
+}
+
+.talkRestored .msg .msgFmCounterpart {
+	float: left;
+	width: 100%;
+}
+
+.talkRestored .msg .msgFmCounterpart .profile_image {
+	float: left;
+	width: 43px;
+	height: 40px;
+	border-radius: 14px;
+}
+
+.talkRestored .msg .msgFmCounterpart .box {
+	float: left;
+	width: calc(100% - 48px);
+}
+
+.talkRestored .msg .msgFmCounterpart .box .profile_name {
+	font-size: 11px;
+}
+
+.talkRestored .msg .msgFmCounterpart .box .a {
+	float: left;
+	position: relative;
+	width: 8px;
+	height: 22px;
+	background: url(../pic/chat_balloon_white.left.png) no-repeat;
+	z-index: 1;
+}
+
+.talkRestored .msg .msgFmCounterpart .box .b {
+	float: left;
+	position: relative;
+	min-height: 24px;
+	max-width: calc(100% - 64px);
+	left: -4px;
+	background-color: #ffffff;
+	border-radius: 5px;
+	z-index: 2;
+	padding: 0px 4px 0px 4px;
+	word-break: break-all;
+}
+
+.talkRestored .msg .msgFmCounterpart .box .time {
+	float: left;
+}
+
+.talkRestored .sendmsg {
+}
+
+.talkRestored .sendmsg .textarea {
+	float: left;
+	width: calc(100% - 68px);
+	height: 64px;
+	border-radius: 8px 0px 0px 8px;
+	margin: 0px 0px 0px 0px;
+	padding: 2px 2px 2px 2px;
+	resize: none;
+}
+
+.talkRestored .sendmsg .button {
+	float: right;
+	width: 62px;
+	height: 68px;
+	background-color: #ffec42;
+	border-radius: 0px 8px 8px 0px;
+	margin: 0px 0px 0px 0px;
+	padding: 0px 0px 0px 0px;
+	text-align: center;
+	display: table;
+	cursor: pointer;
+}
+
+.talkRestored .sendmsg .button p {
+	display: table-cell;
+	vertical-align: middle;
+}
+
+.loading {
+	display: none;
+	position: absolute;
+	top: -4px;
+	left: 0;
+	z-index: 99;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.5);
+}
+
+.loading strong {
+	display: block;
+	position: relative;
+	top: 50%;
+	margin: -75px auto 0 auto;
+	width: 200px;
+	height: 50px;
+	padding: 0 30px;
+
+	border-radius: 10px;
+
+	-webkit-border-radius: 10px;
+
+	-moz-border-radius: 10px;
+
+	box-sizing: border-box;
+
+	background: #fff;
+
+	color: #000;
+	font-size: 16px;
+	line-height: 50px;
+	text-align: center;
+}

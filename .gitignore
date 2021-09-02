@@ -1,0 +1,15 @@
+src/
+
+__*
+__*/
+
+*.log
+
+config.py
+
+static/css/upload.css
+
+templates/talkOnce.html
+templates/talkThemeMonth.html
+
+static/pic/

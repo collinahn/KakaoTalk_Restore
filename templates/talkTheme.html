@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>카카오톡 대화</title>
+  <link rel="shortcut icon" href="#" />
+  <link rel="stylesheet" type="text/css" href="../static/css/talkStyle.css" />
+  <link rel="stylesheet" type="text/css" href="../static/css/loading.css" />
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      requestAnimationFrame(function () {
+        document.getElementById("loadingBar").style.width = "100%";
+      });
+    });
+  </script>
+
+  <script>
+    var out_Type = "0";
+    /*
+     * outType
+     *      0 : msgFmMe
+     *      1 : msgFmCounterpart
+     */
+    function talkRestored_AddMsg(
+      outType,
+      nameOppoent,
+      timeDisplayed,
+      msgDisplayed
+    ) {
+      var ocontainer = document.getElementById("talkRestored_test");
+      var ocontainer_msg = ocontainer.getElementsByClassName("msg")[0];
+
+      var onewmsg = document.createElement("div");
+      var onewblank = document.createElement("div");
+
+      if (outType == "1") {
+        onewmsg.className = "msgFmCounterpart";
+        onewmsg.innerHTML =
+          '<div class="profile_image" style="background: url(../static/pic/profile_image.png) no-repeat;">\n' +
+          "</div>\n" +
+          '<div class="box">\n' +
+          '<div class="profile_name">\n' +
+          nameOppoent +
+          "\n" +
+          "</div>\n" +
+          '<div class="a">\n' +
+          "</div>\n" +
+          '<div class="b">\n' +
+          msgDisplayed +
+          "\n" +
+          "</div>\n" +
+          '<div class="time">\n' +
+          timeDisplayed +
+          "\n" +
+          "</div>\n" +
+          "</div>\n";
+      } else {
+        onewmsg.className = "msgFmMe";
+        onewmsg.innerHTML =
+          '<div class="b">\n' +
+          "</div>\n" +
+          '<div class="a">\n' +
+          msgDisplayed +
+          "\n" +
+          "</div>\n" +
+          '<div class="time">\n' +
+          timeDisplayed +
+          "\n" +
+          "</div>\n" +
+          "";
+      }
+
+      onewmsg.innerHTML += '<div class="clear">\n' + "</div>";
+
+      onewblank.className = "blank";
+
+      ocontainer_msg.appendChild(onewmsg);
+      ocontainer_msg.appendChild(onewblank);
+
+      ocontainer_msg.scrollTop = ocontainer_msg.scrollHeight;
+    }
+
+    function talkRestored_Answer() {
+      var msg_Input = document.getElementById("talkRestored_testmsg");
+
+      if (msg_Input.value.replace(/(?:\r\n|\r|\n)/g, "<br />\n") == "")
+        return;
+
+      var t_Date = new Date();
+      var t_AmPm = t_Date.getHours() > 12 ? "PM" : "AM";
+      var t_Hour =
+        t_Date.getHours() > 12 ? t_Date.getHours() - 12 : t_Date.getHours();
+      var t_Min = t_Date.getMinutes();
+      var str_Time =
+        t_AmPm +
+        " " +
+        (t_Hour < 10 ? "0" : "") +
+        t_Hour +
+        ":" +
+        (t_Min < 10 ? "0" : "") +
+        t_Min;
+
+      talkRestored_AddMsg(
+        out_Type,
+        "me",
+        str_Time,
+        msg_Input.value.replace(/(?:\r\n|\r|\n)/g, "<br />\n")
+      );
+    }
+  </script>
+</head>
+
+<body>
+  <script>
+    window.onload = function () {
+      document.getElementById("loadingIndicator").style.opacity = "0";
+      setTimeout(function () {
+        document.getElementById("loadingIndicator").style.display = "none";
+      }, 450);
+    };
+  </script>
+  <div id="loadingIndicator" class="preloader">
+    <div id="loadingBar" class="loading-bar"></div>
+  </div>
+
+  <div class="talkRestored" id="talkRestored_test">
+    <div class="msg"></div>
+    <!--flash-->
+    {% with messages = get_flashed_messages() %} {% if messages %}
+    <ul>
+      {% for msg in messages %}
+      <li><strong>Error: </strong>{{ msg }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %} {% endwith %}
+    <!--flash-->
+
+    <div class="sendmsg">
+      <textarea class="textarea" id="talkRestored_testmsg" onkeypress="if (event.keyCode==13){ 
+        talkRestored_Answer(); this.value=''; 
+        return false; 
+      } else if (event.keyCode==17){ 
+        this.value+='\n'; 
+      }"></textarea>
+      <div class="button" onclick="talkRestored_Answer()">
+        <p>전송</p>
+      </div>
+      <div class="clear"></div>
+    </div>
+  </div>
+  <script>
+
+    var arr_time = {{ list_time | tojson }};
+    var arr_teller = {{ list_teller | tojson }};
+    var arr_teller_idx = {{ list_teller_idx | tojson }};
+    var arr_msg = {{ list_msg | tojson }};
+
+    function talkRestored_DoAction() {
+      var i;
+      if (arr_msg.length < 2000) {
+        for (i = 0; i < arr_msg.length; i++) {
+          talkRestored_AddMsg(
+            arr_teller_idx[i],
+            arr_teller[i],
+            arr_time[i],
+            arr_msg[i].replace(/(?:\r\n|\r|\n)/g, "<br />\n"));
+        }
+      }
+      else {
+        for (i = arr_msg.length - 2000; i < arr_msg.length; i++) {
+          talkRestored_AddMsg(
+            arr_teller_idx[i],
+            arr_teller[i],
+            arr_time[i],
+            arr_msg[i].replace(/(?:\r\n|\r|\n)/g, "<br />\n"));
+        }
+      }
+      talkRestored_AddMsg("0", "INFO", "1", "최근 메시지 2000건만 로딩됩니다. \n이전 대화를 보시려면 현재 주소에 /(년)/(월) 을 추가하세요\n예: http://125.180.146.39:22563/render/2021/6\n->2021년 06월 대화 탐색\n../render/0 을 입력 후 이동하면 처음 대화 2000건을 출력합니다.".replace(/(?:\r\n|\r|\n)/g, "<br />\n"));
+      talkRestored_AddMsg("0", "INFO", "1", arr_msg[0].replace(/(?:\r\n|\r|\n)/g, "<br />\n"));
+
+    }
+
+    window.addEventListener("DOMContentLoaded", talkRestored_DoAction());
+  </script>
+</body>
+
+</html>
